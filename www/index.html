@@ -24,6 +24,7 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/bbui.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <!-- CSS @ TOP -->
         <title>Earthquake</title>
@@ -34,45 +35,20 @@
         </style>
     </head>
     <body>
-        <table id="earthquaketable" class="table table-striped">
-            <thead></thead>
-            <tbody>
-                
-            </tbody>
-        </table>
-        <!-- SCRIPT @ BOTTOM -->
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-        <script src="js/lib/jquery.js"></script>
-        <script type="text/javascript">
-            $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4", 
-                    function(data, status) {
-                        //$('#content').text(data);
-                        xmlDoc = $.parseXML( "<rss version='2.0'>" + data + "</rss>");
-                        $("#earthquaketable>thead").append("<tr><th>震中</th><th>时间</th><th>经纬</th><th>震级</th></tr>");
-                        for (var i = 0; i < 50; i++) {
-                            var type = xmlDoc.getElementsByTagName('rid'+i)[0].textContent;
-                            var otime = xmlDoc.getElementsByTagName('o_time'+i)[0].textContent;
-                            var lat = xmlDoc.getElementsByTagName('lat'+i)[0].textContent;
-                            var lon = xmlDoc.getElementsByTagName('lon'+i)[0].textContent;
-                            var location = xmlDoc.getElementsByTagName('location_name'+i)[0].textContent;
-                            var m = xmlDoc.getElementsByTagName('m'+i)[0].textContent;
-
-                            var html_row = 
-                                        "<tr>"+
-                                            "<td>"+ location + "</td>"+
-                                            "<td>"+ otime + "</td>"+
-                                            "<td>("+ lat+","+lon + ")</td>"+
-                                            "<td>"+ m + "</td>"+
-                                        "</tr>";
-                            $("#earthquaketable>tbody").append(html_row);
-                        };
-                    }
-            );
-        </script>
     </body>
+    
+    <!-- SCRIPT @ BOTTOM -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/lib/bbui.js"></script>
+    <script src="js/lib/jquery.js"></script>
+    <script type="text/javascript">
+        window.addEventListener("load", function() {
+            document.addEventListener("deviceready", function() {
+                    bb.init(config);
+                    initApp();
+                }, false);
+        }, false);
+    </script>
 </html>
