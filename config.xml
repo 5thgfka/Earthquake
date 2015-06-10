@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="Earthquake" version="0.0.1" 
   xmlns="http://www.w3.org/ns/widgets" 
-  xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  xmlns:cdv="http://cordova.apache.org/ns/1.0"
+  xmlns:rim="http://www.blackberry.com/ns/widgets">
   <name>Earthquake</name>
   <description>Display the latest 50 Earthquake.</description>
   <author email="5thgfka@gmail.com" href="http://cordova.io">ekse</author>
-  <icon src="img\logo.png"/>
+  <icon src="img/logo.png"/>
   <content src="index.html"/>
   <access origin="*"/>
   <access origin="http://www.12322.org" subdomains="true"/>

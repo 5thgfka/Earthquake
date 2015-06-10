@@ -11,9 +11,9 @@ config = {
         screen.style.fontSize = "2.5em";
 
         // add the settings menu (swipedown menu) to each screen
-        if (id != "about") {
-            insertMenu(screen);
-        }
+        //if (id != "about") {
+        //    insertMenu(screen);
+        //}
     },
 }
 
@@ -45,7 +45,7 @@ function initApp() {
 	bb.pushScreen('main.html', 'main');
 }
 
-function insertMenu(screen) {
+/*function insertMenu(screen) {
 	var menu = document.createElement('div'), about = document.createElement('div');
 
 	menu.setAttribute('data-bb-type', 'menu');
@@ -61,10 +61,10 @@ function insertMenu(screen) {
 	menu.appendChild(about);
 	screen.appendChild(menu);
 }
-
+*/
 showScreen = {
 	about : function() {
-		bb.pushScreen('about.html', 'about');
+		bb.pushScreen('about.html', 'menu');
 		// show info screen
 	}
 }
