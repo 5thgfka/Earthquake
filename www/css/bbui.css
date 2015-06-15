@@ -537,7 +537,7 @@ body, html {
 .bb-menu-bar-item-caption {
 	font-size: 20pt;
 	padding-top: 10px;
-	height: 31px;
+	height: 41px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-overflow: -blackberry-fade;
@@ -2256,6 +2256,7 @@ body, html {
 	position:relative;
 	height: 25px;
 	top: 61px;
+	padding-top:9px;
 	overflow:hidden;
 	white-space:nowrap;
 	text-overflow: ellipsis;
