@@ -1,3 +1,4 @@
+var detailsList = ['#epCenter', '#epTime', '#epLat', '#epLon', '#epM', '#epType', '#epDepth'];
 
 config = {
 	actionBarDark : true,
@@ -5,42 +6,42 @@ config = {
 	listsDark : true,
 	coloredTitleBar : true,
 
-	onscreenready:function(element, id) {
+	onscreenready:function(element, id, params) {
         var screen = element.querySelector('[data-bb-type=screen]');
         // Set our styles
         screen.style.fontSize = "2.5em";
 
-        // add the settings menu (swipedown menu) to each screen
-        //if (id != "about") {
-        //    insertMenu(screen);
-        //}
     },
+    ondomready:function(element, id, params) {
+
+        if(id == 'details') {
+            for(var k in params) {
+                if(k > 1) {
+                    if(k == 2) {
+                        // if equals 2, split it and 
+                        var ll = params[k].replace('(', '');
+                        var ll = ll.replace(')', '');
+
+                        var l_l = ll.split(',')
+                        $('#epLat').html(l_l[0]);
+                        $('#epLon').html(l_l[1]);
+                    }
+                    else {
+                        $(detailsList[parseInt(k) + 1]).html(params[k]);
+                    }
+                }
+                else {
+                    $(detailsList[k]).html(params[k]);
+                }
+            }
+            initBingMaps(l_l[0], l_l[1]);
+        }
+    }
 }
 
 function initApp() {
 	bb.pushScreen('main.html', 'main');
-}
-
-/*function insertMenu(screen) {
-	var menu = document.createElement('div'), about = document.createElement('div');
-
-	menu.setAttribute('data-bb-type', 'menu');
-
-	// About button
-	about.setAttribute('data-bb-type', 'menu-item');
-	about.setAttribute('data-bb-img', 'img/info.png');
-	about.setAttribute('data-bb-pin', 'left');
-	about.innerHTML = 'About';
-	about.onclick = showScreen.about;
-
-	// Add menu
-	menu.appendChild(about);
-	screen.appendChild(menu);
-}
-*/
-showScreen = {
-	about : function() {
-		bb.pushScreen('about.html', 'menu');
-		// show info screen
-	}
+    APIKey = {
+        'bing': 'your key'
+    };
 }

@@ -93,3 +93,17 @@ h1 {
 .indent {
     padding-left:25px;
 }
+
+
+/* Z10 */
+@media screen and (min-height: 721px){
+#map_canvas {
+    position: absolute;
+    height: 570px;
+    width: 768px;
+ }    
+}
+
+#infors {
+    padding-top: 570px;
+}

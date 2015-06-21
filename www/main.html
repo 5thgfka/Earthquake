@@ -20,11 +20,12 @@ $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4",
         xmlDoc = $.parseXML( "<rss version='2.0'>" + data + "</rss>");
         $("#earthquaketable>thead").append("<tr><th>震中</th><th>时间</th><th>经纬</th><th>震级</th></tr>");
         for (var i = 0; i < 50; i++) {
-            var type = xmlDoc.getElementsByTagName('rid'+i)[0].textContent;
+            var type = xmlDoc.getElementsByTagName('eq_type'+i)[0].textContent;
             var otime = xmlDoc.getElementsByTagName('o_time'+i)[0].textContent;
             var lat = xmlDoc.getElementsByTagName('lat'+i)[0].textContent;
             var lon = xmlDoc.getElementsByTagName('lon'+i)[0].textContent;
             var location = xmlDoc.getElementsByTagName('location_name'+i)[0].textContent;
+            var depth = xmlDoc.getElementsByTagName('depth'+i)[0].textContent;
             var m = xmlDoc.getElementsByTagName('m'+i)[0].textContent;
 
             var html_row = 
@@ -33,9 +34,23 @@ $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4",
                             "<td>"+ otime + "</td>"+
                             "<td>("+ lat+","+lon + ")</td>"+
                             "<td>"+ m + "</td>"+
+                            "<td style='display:none;'>"+ type + "</td>"+
+                            "<td style='display:none;'>"+ depth + "</td>"+
                         "</tr>";
             $("#earthquaketable>tbody").append(html_row);
         };
+
+        $("#earthquaketable tr").click(function(){
+        	// 点击一行则弹出具体信息页面
+        	var tds = $(this).children('td');
+        	var params = {}
+
+        	for(var i = 0; i<tds.length; i++) {
+        		params[i] = $(tds[i]).html();
+        	}
+        	
+        	bb.pushScreen('details.html', 'details', params);
+        })
     }
 );
 </script>
