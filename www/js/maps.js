@@ -11,7 +11,7 @@ function initBingMaps(myLat, myLong) {
 			showCopyright: false
 		});
 		// add pin to map
-		var pin = new Microsoft.Maps.Pushpin(mcenter, {icon: './img/BluePushpin.png', width: 38, height: 51, draggable: true}); 
+		var pin = new Microsoft.Maps.Pushpin(mcenter, {icon: './img/BluePushpin.png', width: 25, height: 38, draggable: true}); 
 		bingMap.entities.push(pin);
 	}, 200);
 }
