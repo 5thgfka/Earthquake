@@ -40,8 +40,23 @@ config = {
 }
 
 function initApp() {
-	bb.pushScreen('main.html', 'main');
+    bb.pushScreen('main.html', 'main');
+    var cw = document.body.clientWidth;
+    var ch = window.screen.height;
+    if (cw == 720) {
+        width = cw;
+        height = 2 * ch / 3;
+    }
+    else {
+        width = cw;
+        height = ch;
+    }
     APIKey = {
-        'bing': 'your key'
+        'bing': 'Your Bing Key'
+    };
+
+    WHKey = {
+        'w': width,
+        'h': height
     };
 }

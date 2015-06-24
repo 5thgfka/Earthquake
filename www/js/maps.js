@@ -7,6 +7,8 @@ function initBingMaps(myLat, myLong) {
 			credentials: APIKey.bing,
 			center: mcenter,
 			zoom: 8,
+			width: WHKey.w,
+			height: WHKey.h,
 			mapTypeId: Microsoft.Maps.MapTypeId.road,
 			showCopyright: false
 		});

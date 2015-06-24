@@ -97,13 +97,18 @@ h1 {
 
 /* Z10 */
 @media screen and (min-height: 721px){
-#map_canvas {
-    position: absolute;
-    height: 570px;
-    width: 768px;
- }    
-}
 
 #infors {
-    padding-top: 580px;
+    padding-top: 60px;
+}
+  
+}
+
+ /* Q10 */
+@media screen and (max-width: 720px) and (max-height: 720px){
+
+#infors {
+    padding-top: 20px;
+}
+
 }
