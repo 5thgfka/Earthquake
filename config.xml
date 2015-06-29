@@ -4,12 +4,13 @@
   xmlns="http://www.w3.org/ns/widgets" 
   xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Earthquake</name>
-  <rim:splash src="img/splash-1280x768.png"/>
-  <rim:splash src="img/splash-768x1280.png"/>
+  <description>Display the latest 50 Earthquake.</description>
   <author email="5thgfka@gmail.com" href="http://cordova.io">ekse</author>
   <icon src="img/logo.png"/>
   <content src="index.html"/>
   <access origin="*"/>
   <access origin="http://www.12322.org" subdomains="true"/>
-  <description>Display the latest 50 Earthquake.</description>
+  <access origin="http://openapi.baidu.com" subdomains="true"/>
+  <rim:splash src="img/splash-1280x768.png"/>
+  <rim:splash src="img/splash-768x1280.png"/>
 </widget>

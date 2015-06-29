@@ -22,12 +22,25 @@ $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4",
         // Start
         var T_head = "<tr><th>{{Epicenter}}</th><th>{{Date}}</th><th>{{LonLat}}</th><th>{{Magnitude}}</th></tr>";
         var C_head = Handlebars.compile(T_head);
-        var lang = blackberry.system.language;
-        var dict = languages[(lang).substring(0,2)] == undefined ? languages['en']:languages[(lang).substring(0,2)];
+        var lang = (blackberry.system.language).substring(0,2);
+        var dict = languages[lang] == undefined ? languages['en']:languages[lang];
         var plain = C_head(dict);
         // End
         $("#earthquaketable>thead").append(plain);
+        // first look, get attribuites
+        
+        var type_list = [];
+        var time_list = [];
+        var lati_list = [];
+        var lont_list = [];
+        var loca_list = [];
+        var dept_list = [];
+        var mmmm_list = [];
+
         for (var i = 0; i < 50; i++) {
+            var node = {};
+
+            // get attribuites
             var type = xmlDoc.getElementsByTagName('eq_type'+i)[0].textContent;
             var otime = xmlDoc.getElementsByTagName('o_time'+i)[0].textContent;
             var lat = xmlDoc.getElementsByTagName('lat'+i)[0].textContent;
@@ -36,29 +49,85 @@ $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4",
             var depth = xmlDoc.getElementsByTagName('depth'+i)[0].textContent;
             var m = xmlDoc.getElementsByTagName('m'+i)[0].textContent;
 
-            var html_row = 
-                        "<tr>"+
-                            "<td>"+ location + "</td>"+
-                            "<td>"+ otime + "</td>"+
-                            "<td>("+ lat+","+lon + ")</td>"+
-                            "<td>"+ m + "</td>"+
-                            "<td style='display:none;'>"+ type + "</td>"+
-                            "<td style='display:none;'>"+ depth + "</td>"+
-                        "</tr>";
-            $("#earthquaketable>tbody").append(html_row);
-        };
+            type_list.push(type);
+            time_list.push(otime);
+            lati_list.push(lat);
+            lont_list.push(lon);
+            loca_list.push(location);
+            dept_list.push(depth);
+            mmmm_list.push(m);
+        }
 
-        $("#earthquaketable tr").click(function(){
-        	// 点击一行则弹出具体信息页面
-        	var tds = $(this).children('td');
-        	var params = {}
-
-        	for(var i = 0; i<tds.length; i++) {
-        		params[i] = $(tds[i]).html();
-        	}
-        	
-        	bb.pushScreen('details.html', 'details', params);
-        })
+        // if Chinese
+        if(lang == 'zh') {
+            for(var i = 0; i < 50; i++) {
+                var html_row = 
+                            "<tr>"+
+                                "<td>"+ loca_list[i] + "</td>"+
+                                "<td>"+ time_list[i] + "</td>"+
+                                "<td>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
+                                "<td>"+ mmmm_list[i] + "</td>"+
+                                "<td style='display:none;'>"+ type_list[i] + "</td>"+
+                                "<td style='display:none;'>"+ dept_list[i] + "</td>"+
+                            "</tr>";
+                $("#earthquaketable>tbody").append(html_row);
+            };
+            bind_click();
+        }
+        else {
+            // Process TYPE
+            // Official
+            // Automatic
+            var type_eng_list = [];
+            for(var i = 0; i < 50; i++) {
+                type_eng_list[i] = type_list[i] == '自动速报'? 'Automatic' : 'Official';
+            }
+            // Process LOCATION
+            // 1. join to a string
+            // 2. translate it
+            // 3. split results
+            var location_chinese = loca_list.join('%0A');
+            // english
+            // today%0Atomorrow
+            var baidu_url = "http://openapi.baidu.com/public/2.0/bmt/translate?client_id="
+                        + APIKey.baidu + 
+                        "&q="+ location_chinese + "&from=zh&to=en";
+            var location_english = new Array();
+            $.get(baidu_url, function(data, status) {
+                var results = data['trans_result'];
+                for(var i = 0; i < 50; i++) {
+                    var dst = results[i]['dst'];
+                    location_english[i] = dst;
+                }
+                // DONE, finish translation. alert(location_english[i]);
+                for(var i = 0; i < 50; i++) {
+                    var html_row = 
+                                "<tr>"+
+                                    "<td>"+ location_english[i] + "</td>"+
+                                    "<td>"+ time_list[i] + "</td>"+
+                                    "<td>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
+                                    "<td>"+ mmmm_list[i] + "</td>"+
+                                    "<td style='display:none;'>"+ type_eng_list[i] + "</td>"+
+                                    "<td style='display:none;'>"+ dept_list[i] + "</td>"+
+                                "</tr>";
+                    $("#earthquaketable>tbody").append(html_row);
+                };
+                bind_click();
+            });
+        }
     }
 );
+function bind_click() {
+    $("#earthquaketable tr").click(function(){
+        // 点击一行则弹出具体信息页面
+        var tds = $(this).children('td');
+        var params = {}
+
+        for(var i = 0; i<tds.length; i++) {
+            params[i] = $(tds[i]).html();
+        }
+        
+        bb.pushScreen('details.html', 'details', params);
+    })
+}
 </script>

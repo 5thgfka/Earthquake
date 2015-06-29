@@ -16,7 +16,7 @@ config = {
 
         if(id == 'details') {
             // Localization at here
-            var template = "<div class='row' style='center'><h1 style='font-size: 56px;font-weight: bold;'>{{Magnitude}}</h1><h1 id='epM' style='font-size: 56px;font-weight: bold;'></h1></div><div class='row'><div class='col-sm-3'>{{Epicenter}}£º</div><div class='col-sm-9' id='epCenter'></div></div><div class='row'><div class='col-sm-3'>{{Date}}£º</div><div class='col-sm-9' id='epTime'></div></div><div class='row'><div class='col-sm-3'>{{Type}}£º</div><div class='col-sm-9' id='epType'></div></div><div class='row'><div class='col-sm-3'>{{Lon}}£º</div><div class='col-sm-3' id='epLat'></div><div class='col-sm-3'>{{Lat}}£º</div><div class='col-sm-3' id='epLon'></div></div><div class='row'><div class='col-sm-4'>{{Depth}}£º</div><div class='col-sm-8' id='epDepth'></div></div>"
+            var template = "<div class='row' style='center'><h1 style='font-size: 56px;font-weight: bold;'>{{Magnitude}}</h1><h1 id='epM' style='font-size: 56px;font-weight: bold;'></h1></div><div class='row'><div class='col-sm-3'>{{Epicenter}}:</div><div class='col-sm-9' id='epCenter'></div></div><div class='row'><div class='col-sm-3'>{{Date}}:</div><div class='col-sm-9' id='epTime'></div></div><div class='row'><div class='col-sm-3'>{{Type}}:</div><div class='col-sm-9' id='epType'></div></div><div class='row'><div class='col-sm-3'>{{Lon}}:</div><div class='col-sm-3' id='epLat'></div><div class='col-sm-3'>{{Lat}}:</div><div class='col-sm-3' id='epLon'></div></div><div class='row'><div class='col-sm-4'>{{Depth}}:</div><div class='col-sm-8' id='epDepth'></div></div>"
             var compiler = Handlebars.compile(template);
             var lang = blackberry.system.language;
             var dict = languages[(lang).substring(0,2)] == undefined ? languages['en']:languages[(lang).substring(0,2)];
@@ -60,9 +60,9 @@ function initApp() {
         height = ch;
     }
     APIKey = {
-        'bing': 'Your Bing Key'
+        'bing': 'Your BingKey',
+        'baidu': 'Your BaiduKey'
     };
-
     WHKey = {
         'w': width,
         'h': height
