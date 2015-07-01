@@ -20,7 +20,7 @@ $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4",
         xmlDoc = $.parseXML( "<rss version='2.0'>" + data + "</rss>");
         // Localization
         // Start
-        var T_head = "<tr><th>{{Epicenter}}</th><th>{{Date}}</th><th>{{LonLat}}</th><th>{{Magnitude}}</th></tr>";
+        var T_head = "<tr><th>{{Epicenter}}</th><th style='width:30%;'>{{Date}}</th><th>{{Magnitude}}</th></tr>";
         var C_head = Handlebars.compile(T_head);
         var lang = (blackberry.system.language).substring(0,2);
         var dict = languages[lang] == undefined ? languages['en']:languages[lang];
@@ -65,8 +65,8 @@ $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4",
                             "<tr>"+
                                 "<td>"+ loca_list[i] + "</td>"+
                                 "<td>"+ time_list[i] + "</td>"+
-                                "<td>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
-                                "<td>"+ mmmm_list[i] + "</td>"+
+                                "<td style='display:none;'>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
+                                "<td style='text-align: center'>"+ mmmm_list[i] + "</td>"+
                                 "<td style='display:none;'>"+ type_list[i] + "</td>"+
                                 "<td style='display:none;'>"+ dept_list[i] + "</td>"+
                             "</tr>";
@@ -105,8 +105,8 @@ $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4",
                                 "<tr>"+
                                     "<td>"+ location_english[i] + "</td>"+
                                     "<td>"+ time_list[i] + "</td>"+
-                                    "<td>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
-                                    "<td>"+ mmmm_list[i] + "</td>"+
+                                    "<td style='display:none;'>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
+                                    "<td style='text-align: center'>"+ mmmm_list[i] + "</td>"+
                                     "<td style='display:none;'>"+ type_eng_list[i] + "</td>"+
                                     "<td style='display:none;'>"+ dept_list[i] + "</td>"+
                                 "</tr>";
