@@ -14,7 +14,7 @@
     </div>
 </div>
 <script>
-if(!localStorage.earthquaketable) {
+if(!sessionStorage.earthquaketable) {
     // load earthquake data
     $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4", 
         function(data, status) {
@@ -142,7 +142,7 @@ function bind_click() {
 
 // save the table to body
 function append_loaded() {
-    localStorage.earthquaketable = document.getElementById("earthquaketable").outerHTML;
+    sessionStorage.earthquaketable = document.getElementById("earthquaketable").outerHTML;
 }
 
 </script>

@@ -43,9 +43,9 @@ config = {
             }
             initBingMaps(l_l[0], l_l[1]);
         }
-        if(id == 'main' && localStorage.earthquaketable) {
+        if(id == 'main' && sessionStorage.earthquaketable) {
             $("#earthquaketable").remove();
-            $("#content").html(localStorage.earthquaketable);
+            $("#content").html(sessionStorage.earthquaketable);
             setTimeout(bind_click, 500);
         }
     }
