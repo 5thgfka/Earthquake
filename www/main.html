@@ -2,6 +2,9 @@
 
 <div id='main' data-bb-type="screen">
     <div id='content'>
+        <div id = 'loading' style="width:100px;padding-top:100px;margin: 0 auto;">
+            <img src="img/loading.gif" />
+        </div>
 	    <table id="earthquaketable" class="table table-striped">
 	        <thead id='tbl_header'></thead>
 	        <tbody id='tbl_body'>
@@ -59,7 +62,7 @@ if(!sessionStorage.earthquaketable) {
                 dept_list.push(depth);
                 mmmm_list.push(m);
             }
-
+            $("#loading").remove();
             // if Chinese
             if(lang == 'zh') {
                 for(var i = 0; i < 50; i++) {
@@ -103,6 +106,7 @@ if(!sessionStorage.earthquaketable) {
                         location_english[i] = dst;
                     }
                     // DONE, finish translation. alert(location_english[i]);
+                    $("#loading").remove();
                     for(var i = 0; i < 50; i++) {
                         var html_row = 
                                     "<tr>"+

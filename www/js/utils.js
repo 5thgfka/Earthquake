@@ -45,6 +45,7 @@ config = {
         }
         if(id == 'main' && sessionStorage.earthquaketable) {
             $("#earthquaketable").remove();
+            $("#loading").remove();
             $("#content").html(sessionStorage.earthquaketable);
             setTimeout(bind_click, 500);
         }
