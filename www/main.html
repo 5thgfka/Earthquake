@@ -14,6 +14,7 @@
     </div>
     <div data-bb-type="menu">
         <div data-bb-type="menu-item" data-bb-img="img/info.png" onclick="bb.pushScreen('about.html','about');">about</div>
+        <div data-bb-type="menu-item" data-bb-img="img/settings.png" onclick="bb.pushScreen('settings.html','settings');">settings</div>
     </div>
 </div>
 <script>
@@ -27,7 +28,7 @@ if(!sessionStorage.earthquaketable) {
             // Start
             var T_head = "<tr><th>{{Epicenter}}</th><th style='width:30%;'>{{Date}}</th><th>{{Magnitude}}</th></tr>";
             var C_head = Handlebars.compile(T_head);
-            var lang = (blackberry.system.language).substring(0,2);
+            var lang = localStorage.lang == undefined ? (blackberry.system.language).substring(0,2):localStorage.lang;
             var dict = languages[lang] == undefined ? languages['en']:languages[lang];
             var plain = C_head(dict);
             // End
