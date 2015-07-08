@@ -42,6 +42,7 @@ config = {
                 }
             }
             initBingMaps(l_l[0], l_l[1]);
+            $("#map_canvas").parent().parent().css({overflow:'hidden'})
         }
         if(id == 'main' && sessionStorage.earthquaketable) {
             $("#earthquaketable").remove();
