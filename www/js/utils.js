@@ -42,6 +42,7 @@ config = {
                 }
             }
             initBingMaps(l_l[0], l_l[1]);
+            $("#map_canvas").parent().parent().css({overflow:'hidden'})
         }
         if(id == 'main' && sessionStorage.earthquaketable) {
             $("#earthquaketable").remove();
@@ -50,31 +51,57 @@ config = {
             setTimeout(bind_click, 500);
         }
         if(id == 'settings') {
-            if(localStorage.lang) {
-                //alert('lo');
-                var lang_local = localStorage.lang;
-                //alert(lang_local);
-                $("#lang option[value='"+lang_local+"']").attr("selected","true");
-                //document.getElementById('lang').value = lang_local;
-                $("#lang").val(lang_local);
-            }
-            else {
-                //alert('sy');
-                var sys_lang = (blackberry.system.language).substring(0,2);
-                //alert(sys_lang);
-                if(sys_lang == 'zh') {
-                    $("#lang option[value='zh']").attr("selected","true");
-                    //document.getElementById('lang').value = 'zh';
-                    $("#lang").val('zh');
-                }
-                else {
-                    $("#lang option[value='en']").attr("selected","true");
-                    //document.getElementById('lang').value = 'en';
-                    $("#lang").val('en');
-                }
-            }
+            load_settings();
         }
     }
+}
+
+function load_settings() {
+    if(localStorage.lang) {
+        //alert('lo');
+        var lang_local = localStorage.lang;
+        //alert(lang_local);
+        //$("#lang option[value='"+lang_local+"']").attr("selected","true");
+        //document.getElementById('lang').value = lang_local;
+        if(lang_local == 'zh') {
+            document.getElementById("app_lang").options[0].selected=true;
+        }
+        else {
+            //$("#lang option[value='en']").attr("selected","true");
+            //document.getElementById('lang').value = 'en';
+            document.getElementById("app_lang").options[1].selected=true;
+
+            // fix
+            fix_bug_dropdown();
+        }
+    }
+    else {
+        var sys_lang = (blackberry.system.language).substring(0,2);
+        if(sys_lang == 'zh') {
+            //$("#lang option[value='zh']").attr("selected","true");
+            //document.getElementById('lang').value = 'zh';
+            document.getElementById("app_lang").options[0].selected=true;
+        }
+        else {
+            //$("#lang option[value='en']").attr("selected","true");
+            //document.getElementById('lang').value = 'en';
+            document.getElementById("app_lang").options[1].selected=true;
+            fix_bug_dropdown();
+        }
+    }
+}
+
+function fix_bug_dropdown() {
+    // 0.top display
+    $(".bb-dropdown-caption").text('English');
+    // 1.remove selected class
+    $($(".bb-dropdown-item")[0]).removeClass('bb-dropdown-item-selected-dark');
+    // 2.remove tick
+    $($(".bb-dropdown-selected-image-dark")[0]).css({'visibility':''});
+    // 1.add selected class
+    $($(".bb-dropdown-item")[1]).addClass('bb-dropdown-item-selected-dark');
+    // 2.add tick
+    $($(".bb-dropdown-selected-image-dark")[1]).css({'visibility':'visible'});
 }
 
 function initApp() {
@@ -100,12 +127,18 @@ function initApp() {
 }
 
 // settings
-function modify_language(object) {
-    var value = object.value;
-    //alert(val);
-    $("#lang option[value='"+ value +"']").attr("selected","true");
+function modify_language(obj) {
+    var value = $("#app_lang").val();
+
+    //$("#lang option[value='"+ value +"']").attr("selected","true");
+    //$("#app_lang").val(value);
     //document.getElementById('lang').value = value;
-    $("#lang").val(val);
-    
+    //$("#lang").val(val);
+    if(value == 'zh') {
+        // 1.remove selected class
+        $($(".bb-dropdown-item")[1]).removeClass('bb-dropdown-item-selected-dark');
+        // 2.remove tick
+        $($(".bb-dropdown-selected-image-dark")[1]).css({'visibility':''});
+    }
     localStorage.lang = value;
 }
