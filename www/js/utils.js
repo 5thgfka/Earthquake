@@ -41,6 +41,21 @@ config = {
                     $(detailsList[k]).html(params[k]);
                 }
             }
+            var emv = $("#epM").text();
+
+            if (emv < 3.0) {
+                $("#epM").css({'color':'#99CC00'});
+            }
+            if (emv >= 3.0 && emv <= 4.5) {
+                $("#epM").css({'color':'#FFFF00'});
+            }
+
+            if (emv > 4.5 && emv < 6) {
+                $("#epM").css({'color':'#FF9900'});
+            }
+            if (emv >= 6) {
+                $("#epM").css({'color':'#FF0033'});
+            }
             initBingMaps(l_l[0], l_l[1]);
             $("#map_canvas").parent().parent().css({overflow:'hidden'})
         }
