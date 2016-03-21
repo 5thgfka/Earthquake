@@ -1,4 +1,4 @@
-var detailsList = ['#epCenter', '#epTime', '#epLat', '#epLon', '#epM', '#epType', '#epDepth'];
+var detailsList = ['#epCenter', '#epTime', '#epLat', '#epLon', '#epM', '#epDepth'];
 
 config = {
 	actionBarDark : true,
@@ -15,7 +15,7 @@ config = {
     ondomready:function(element, id, params) {
         if(id == 'details') {
             // Localization at here
-            var template = "<div class='row' style='center'><h1 style='font-size: 56px;font-weight: bold;'>{{Magnitude}}</h1><h1 id='epM' style='font-size: 56px;font-weight: bold;'></h1></div><div class='row'><div class='col-sm-3'>{{Epicenter}}:</div><div class='col-sm-9' id='epCenter'></div></div><div class='row'><div class='col-sm-3'>{{Date}}:</div><div class='col-sm-9' id='epTime'></div></div><div class='row'><div class='col-sm-3'>{{Type}}:</div><div class='col-sm-9' id='epType'></div></div><div class='row'><div class='col-sm-3'>{{Lon}}:</div><div class='col-sm-3' id='epLat'></div><div class='col-sm-3'>{{Lat}}:</div><div class='col-sm-3' id='epLon'></div></div><div class='row'><div class='col-sm-4'>{{Depth}}:</div><div class='col-sm-8' id='epDepth'></div></div>"
+            var template = "<div class='row' style='center'><h1 style='font-size: 56px;font-weight: bold;'>{{Magnitude}}</h1><h1 id='epM' style='font-size: 56px;font-weight: bold;'></h1></div><div class='row'><div class='col-sm-3'>{{Epicenter}}:</div><div class='col-sm-9' id='epCenter'></div></div><div class='row'><div class='col-sm-3'>{{Date}}:</div><div class='col-sm-9' id='epTime'></div></div><div class='row'><div class='col-sm-3'>{{Lon}}:</div><div class='col-sm-3' id='epLat'></div><div class='col-sm-3'>{{Lat}}:</div><div class='col-sm-3' id='epLon'></div></div><div class='row'><div class='col-sm-4'>{{Depth}}:</div><div class='col-sm-8' id='epDepth'></div></div>"
             var compiler = Handlebars.compile(template);
             var lang = localStorage.lang == undefined ? (blackberry.system.language).substring(0,2):localStorage.lang;
             var dict = languages[lang] == undefined ? languages['en']:languages[lang];
@@ -133,7 +133,8 @@ function initApp() {
     }
     APIKey = {
         'bing': 'Your BingKey',
-        'baidu': 'Your BaiduKey'
+        'baiduappid': 'Your baiduappid',
+        'baidukey':'Your baidukey'
     };
     WHKey = {
         'w': width,

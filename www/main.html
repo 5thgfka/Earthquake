@@ -19,11 +19,12 @@
 </div>
 <script>
 if(!sessionStorage.earthquaketable) {
-    // load earthquake data
-    $.get("http://www.12322.org/csi/datasvr.jsp?order_info=TASK4", 
-        function(data, status) {
-            //$('#content').text(data);
-            xmlDoc = $.parseXML( "<rss version='2.0'>" + data + "</rss>");
+
+    $.ajax({
+        url:"http://typos.sinaapp.com/getEarth/",
+        type:"get",
+        async: true,
+        success: function (data) {
             // Localization
             // Start
             var T_head = "<tr><th>{{Epicenter}}</th><th style='width:30%;'>{{Date}}</th><th>{{Magnitude}}</th></tr>";
@@ -35,7 +36,6 @@ if(!sessionStorage.earthquaketable) {
             $("#earthquaketable>thead").append(plain);
             // first look, get attribuites
             
-            var type_list = [];
             var time_list = [];
             var lati_list = [];
             var lont_list = [];
@@ -47,15 +47,13 @@ if(!sessionStorage.earthquaketable) {
                 var node = {};
 
                 // get attribuites
-                var type = xmlDoc.getElementsByTagName('eq_type'+i)[0].textContent;
-                var otime = xmlDoc.getElementsByTagName('o_time'+i)[0].textContent;
-                var lat = xmlDoc.getElementsByTagName('lat'+i)[0].textContent;
-                var lon = xmlDoc.getElementsByTagName('lon'+i)[0].textContent;
-                var location = xmlDoc.getElementsByTagName('location_name'+i)[0].textContent;
-                var depth = xmlDoc.getElementsByTagName('depth'+i)[0].textContent;
-                var m = xmlDoc.getElementsByTagName('m'+i)[0].textContent;
+                var otime = data[i][0];
+                var lat = data[i][1];
+                var lon = data[i][2];
+                var location = data[i][5].trim();
+                var depth = data[i][3];;
+                var m = data[i][4];;
 
-                type_list.push(type);
                 time_list.push(otime);
                 lati_list.push(lat);
                 lont_list.push(lon);
@@ -73,7 +71,6 @@ if(!sessionStorage.earthquaketable) {
                                     "<td>"+ time_list[i] + "</td>"+
                                     "<td style='display:none;'>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
                                     "<td style='text-align: center'>"+ mmmm_list[i] + "</td>"+
-                                    "<td style='display:none;'>"+ type_list[i] + "</td>"+
                                     "<td style='display:none;'>"+ dept_list[i] + "</td>"+
                                 "</tr>";
                     $("#earthquaketable>tbody").append(html_row);
@@ -82,53 +79,59 @@ if(!sessionStorage.earthquaketable) {
                 append_loaded();
             }
             else {
-                // Process TYPE
-                // Official
-                // Automatic
-                var type_eng_list = [];
-                for(var i = 0; i < 50; i++) {
-                    type_eng_list[i] = type_list[i] == '自动速报'? 'Automatic' : 'Official';
-                }
                 // Process LOCATION
                 // 1. join to a string
                 // 2. translate it
                 // 3. split results
-                var location_chinese = loca_list.join('%0A');
+                var location_chinese = loca_list.join('\n');
                 // english
                 // today%0Atomorrow
-                var baidu_url = "http://openapi.baidu.com/public/2.0/bmt/translate?client_id="
-                            + APIKey.baidu + 
-                            "&q="+ location_chinese + "&from=zh&to=en";
+                var salt = (new Date).getTime();
+                var str1 = APIKey.baiduappid + location_chinese + salt + APIKey.baidukey;
+                var sign = MD5(str1);
+                var from = 'zh';
+                var to = 'en';
+
                 var location_english = new Array();
-                $.get(baidu_url, function(data, status) {
-                    var results = data['trans_result'];
-                    for(var i = 0; i < 50; i++) {
-                        var dst = results[i]['dst'];
-                        location_english[i] = dst;
-                    }
-                    // DONE, finish translation. alert(location_english[i]);
-                    $("#loading").remove();
-                    for(var i = 0; i < 50; i++) {
-                        var html_row = 
-                                    "<tr>"+
-                                        "<td>"+ location_english[i] + "</td>"+
-                                        "<td>"+ time_list[i] + "</td>"+
-                                        "<td style='display:none;'>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
-                                        "<td style='text-align: center'>"+ mmmm_list[i] + "</td>"+
-                                        "<td style='display:none;'>"+ type_eng_list[i] + "</td>"+
-                                        "<td style='display:none;'>"+ dept_list[i] + "</td>"+
-                                    "</tr>";
-                        $("#earthquaketable>tbody").append(html_row);
-                    };
-                    bind_click();
-                    append_loaded();
+
+                $.ajax({
+                    url: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+                    type: 'get',
+                    dataType: 'jsonp',
+                    data: {
+                        q: location_chinese,
+                        appid: APIKey.baiduappid,
+                        salt: salt,
+                        from: from,
+                        to: to,
+                        sign: sign
+                    },
+                    success: function (data) {
+                        var results = data['trans_result'];
+                        for(var i = 0; i < 50; i++) {
+                            var dst = results[i]['dst'];
+                            location_english[i] = dst.trim();
+                        }
+                        // DONE, finish translation. alert(location_english[i]);
+                        $("#loading").remove();
+                        for(var i = 0; i < 50; i++) {
+                            var html_row = 
+                                        "<tr>"+
+                                            "<td>"+ location_english[i] + "</td>"+
+                                            "<td>"+ time_list[i] + "</td>"+
+                                            "<td style='display:none;'>("+ lati_list[i] +","+ lont_list[i] + ")</td>"+
+                                            "<td style='text-align: center'>"+ mmmm_list[i] + "</td>"+
+                                            "<td style='display:none;'>"+ dept_list[i] + "</td>"+
+                                        "</tr>";
+                            $("#earthquaketable>tbody").append(html_row);
+                        };
+                        bind_click();
+                        append_loaded();
+                    } 
                 });
             }
         }
-    );
-}
-else {
-    // at domready, append localstorage data.
+    })
 }
 
 function bind_click() {
